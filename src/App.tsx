@@ -1,9 +1,13 @@
 import { MapPin, Calendar, ArrowRight, UserRoundPlus, Settings2, X, AtSign, Plus } from 'lucide-react'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 export function App() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false)
+  const [emailsToInvite, setEmailToInvite] = useState<string[]>([
+  'renan.fachin@email.com'
+  ])
+
 
   function openGuestsInput(){
     setIsGuestsInputOpen(true)
@@ -19,6 +23,29 @@ export function App() {
 
   function closeGuestsModal(){
     setIsGuestsModalOpen(false)
+  }
+
+  function addNewEmailToInvite(event: FormEvent<HTMLFormElement>){
+    event.preventDefault()
+
+    const data = new FormData(event.currentTarget)
+    const email = data.get('email')?.toString()
+
+    if(!email){
+      return
+    }
+
+    // Validação de emails repetidos
+    if(emailsToInvite.includes(email)){
+      return
+    }
+
+    setEmailToInvite([
+      ...emailsToInvite,
+      email
+    ])
+
+    event.currentTarget.reset()
   }
 
   return (
@@ -127,39 +154,35 @@ export function App() {
               </div>
 
               <div className='flex flex-wrap gap-3'>
-                <div className='py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2.5'>
-                  <span className='text-zinc-300'>jessica.white44@yahoo.com</span>
-                  <button>
-                    <X className='size-4 text-zinc-500'/>
-                  </button>
-                </div>
-
-                <div className='py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2.5'>
-                  <span className='text-zinc-300'>erik_leffler3@gmail.com</span>
-                  <button>
-                    <X className='size-4 text-zinc-500'/>
-                  </button>
-                </div>
-
-                <div className='py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2.5'>
-                  <span className='text-zinc-300'>rebekah.conn21@gmail.com</span>
-                  <button>
-                    <X className='size-4 text-zinc-500'/>
-                  </button>
-                </div>
+                {
+                  emailsToInvite.map((guest) => {
+                    return (
+                      <div key={guest} className='py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2.5'>
+                        <span className='text-zinc-300'>{guest}</span>
+                        <button>
+                          <X className='size-4 text-zinc-500'/>
+                        </button>
+                      </div>
+                    )
+                  })
+                }              
               </div>
 
               <div className='w-full h-px bg-zinc-800'/>
 
-              <form className='p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
+              <form onSubmit={addNewEmailToInvite} className='p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
                 <AtSign className='size-5 text-zinc-400'/>
                 <input 
-                  type="text" 
+                  type="email" 
+                  name='email'
                   placeholder="Digite o e-mail do convidado" 
                   className="bg-transparent text-lg placeholder:text-zinc-400 outline-none flex-1 disabled:text-lime-900"
+                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+(\.[^\s@]+)?$"
+                  title="Por favor, insira um email válido com uma extensão válida"
                 />
 
-            <button 
+            <button
+              type='submit'
               className='bg-lime-300 text-lime-950 rounded-lg py-2 px-5 font-medium flex items-center gap-2 hover:bg-lime-400 transition-colors'
             >
               Convidar
