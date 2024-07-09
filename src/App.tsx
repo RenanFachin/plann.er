@@ -47,6 +47,12 @@ export function App() {
 
     event.currentTarget.reset()
   }
+  
+  function removeEmailFromInvite(emailToRemove: string){
+    const newEmailList = emailsToInvite.filter(invited => invited !== emailToRemove)
+
+    setEmailToInvite(newEmailList)
+  }
 
   return (
     <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
@@ -159,7 +165,7 @@ export function App() {
                     return (
                       <div key={guest} className='py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2.5'>
                         <span className='text-zinc-300'>{guest}</span>
-                        <button>
+                        <button onClick={() => removeEmailFromInvite(guest)}>
                           <X className='size-4 text-zinc-500'/>
                         </button>
                       </div>
