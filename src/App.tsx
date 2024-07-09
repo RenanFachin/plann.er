@@ -150,7 +150,7 @@ export function App() {
                 <div className='flex items-center justify-between'>
                   <h2 className='text-lg font-semibold'>Selecionar os convidados</h2>
                   <button onClick={() => closeGuestsModal()}>
-                    <X className='size-5 text-zinc-900'/>
+                    <X className='size-5 text-zinc-800 hover:text-lime-700'/>
                   </button>
                 </div>
 
