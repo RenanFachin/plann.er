@@ -9,6 +9,7 @@ import { Button } from "../../components/button";
 
 export function TripDetailsPage(){
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false)
+
   
   function openCreateActivityModal(){
     setIsCreateActivityModalOpen(true)

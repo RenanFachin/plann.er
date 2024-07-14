@@ -116,9 +116,12 @@ export function CreateTripPage() {
 
   return (
     isSubmitting ? (
-      <div className="h-screen flex items-center justify-center animate-spin">
-      <LoaderCircle className='size-8 text-lime-400'/>
-    </div>
+      <div className="h-screen flex items-center justify-center">
+        <div className='flex flex-col items-center justify-center gap-4'>
+          <LoaderCircle className='size-8 text-lime-400 animate-spin'/>
+          <span className='animate-pulse'>Um email de confirmação está sendo enviado!</span>
+        </div>
+      </div>
     ) : (
       <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
       <div className="max-w-3xl w-full px-6 text-center space-y-10">
