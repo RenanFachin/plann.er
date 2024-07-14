@@ -7,3 +7,16 @@
 *{
   min-width: 0;
 }
+
+.rdp-day_range_start,
+.rdp-day_selected, 
+.rdp-day_range_end,
+.rdp-day_range_end:hover {
+  background-color: #BEF264;
+  color: black;
+}
+
+.rdp-day_selected:hover{
+  background-color: #8ebd3d;
+}
+
