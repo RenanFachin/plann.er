@@ -7,13 +7,15 @@ import { format } from 'date-fns'
 
 interface DestionationAndDateStepProps{
   isGuestsInputOpen: boolean
+  eventStartAndEventDates: DateRange | undefined
   closeGuestsInput: () => void
   openGuestsInput: () => void
+  setDestination: (destination: string) => void 
+  setEventStartAndEventDates: (dates: DateRange | undefined) => void
 }
 
-export function DestionationAndDateStep({closeGuestsInput, isGuestsInputOpen, openGuestsInput}: DestionationAndDateStepProps){
+export function DestionationAndDateStep({closeGuestsInput, isGuestsInputOpen, openGuestsInput, setDestination, setEventStartAndEventDates, eventStartAndEventDates}: DestionationAndDateStepProps){
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const [eventStartAndEventDates, setEventStartAndEventDates] = useState<DateRange | undefined>()
 
   function openDatePicker(){
     return setIsDatePickerOpen(true)
@@ -34,6 +36,7 @@ export function DestionationAndDateStep({closeGuestsInput, isGuestsInputOpen, op
                 placeholder="Para onde você vai?" 
                 className="bg-transparent text-lg placeholder:text-zinc-400 outline-none flex-1 disabled:text-lime-900"
                 disabled={isGuestsInputOpen}
+                onChange={event => setDestination(event.target.value)}
               />
             </div>
 

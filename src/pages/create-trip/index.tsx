@@ -4,6 +4,7 @@ import { InviteGuestsModal } from './invite-guests-modal'
 import { ConfirmTripModal } from './confirm-trip-modal'
 import { DestionationAndDateStep } from './steps/destionation-and-date-step'
 import { InviteGuestsStep } from './steps/invite-guests-step'
+import { DateRange } from 'react-day-picker'
 
 export function CreateTripPage() {
   const navigate = useNavigate()
@@ -11,6 +12,12 @@ export function CreateTripPage() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false)
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false)
   const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false)
+
+  const [destination, setDestination] = useState('')
+  const [ownerName, setOwnerName] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
+  const [eventStartAndEventDates, setEventStartAndEventDates] = useState<DateRange | undefined>()
+
   const [emailsToInvite, setEmailToInvite] = useState<string[]>([])
 
 
@@ -69,8 +76,12 @@ export function CreateTripPage() {
 
   function createTrip(event: FormEvent<HTMLFormElement>){
     event.preventDefault()
+    console.log(destination)
+    console.log(eventStartAndEventDates)
+    console.log(ownerName)
+    console.log(ownerEmail)
 
-    navigate('/trips/123')
+    // navigate('/trips/123')
   }
 
   return (
@@ -86,6 +97,9 @@ export function CreateTripPage() {
             closeGuestsInput={closeGuestsInput}
             isGuestsInputOpen={isGuestsInputOpen}
             openGuestsInput={openGuestsInput}
+            setDestination={setDestination}
+            setEventStartAndEventDates={setEventStartAndEventDates}
+            eventStartAndEventDates={eventStartAndEventDates}
           />
 
           {
@@ -120,7 +134,12 @@ export function CreateTripPage() {
 
           {
             isConfirmTripModalOpen && (
-              <ConfirmTripModal closeConfirmTripModal={closeConfirmTripModal} createTrip={createTrip}/>
+              <ConfirmTripModal 
+              closeConfirmTripModal={closeConfirmTripModal} 
+              createTrip={createTrip}
+              setOwnerName={setOwnerName}
+              setOwnerEmail={setOwnerEmail}
+              />
             )
           
           }
