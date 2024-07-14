@@ -1,4 +1,5 @@
 import { ArrowRight, Calendar, MapPin, Settings2 } from "lucide-react";
+import { Button } from "../../../components/button";
 
 interface DestionationAndDateStepProps{
   isGuestsInputOpen: boolean
@@ -33,22 +34,16 @@ export function DestionationAndDateStep({closeGuestsInput, isGuestsInputOpen, op
 
            {
             isGuestsInputOpen ? (
-              <button 
-                className='bg-zinc-800 text-zinc-200 rounded-lg py-2 px-5 font-medium flex items-center gap-2 hover:bg-zinc-600 transition-colors'
-                onClick={() => closeGuestsInput()}
-              >
+              <Button variant="secondary" onClick={() => closeGuestsInput()}>
                 Alterar local/data
                 <Settings2 className='size-5'/>
-              </button>
+              </Button>
             ) : (
-              <button 
-              className='bg-lime-300 text-lime-950 rounded-lg py-2 px-5 font-medium flex items-center gap-2 hover:bg-lime-400 transition-colors'
-              onClick={() => openGuestsInput()}
-            >
-              Continuar
-
-              <ArrowRight className='size-5 text-zinc-950'/>
-            </button>
+              <Button variant="primary" onClick={() => openGuestsInput()}>
+                Continuar
+                <ArrowRight className='size-5 text-zinc-950'/>
+              </Button>
+             
             )
            }
     </div>
