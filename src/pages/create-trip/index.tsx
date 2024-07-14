@@ -5,6 +5,8 @@ import { ConfirmTripModal } from './confirm-trip-modal'
 import { DestionationAndDateStep } from './steps/destionation-and-date-step'
 import { InviteGuestsStep } from './steps/invite-guests-step'
 import { DateRange } from 'react-day-picker'
+import { api } from '../../lib/axios'
+import { LoaderCircle } from 'lucide-react'
 
 export function CreateTripPage() {
   const navigate = useNavigate()
@@ -19,6 +21,8 @@ export function CreateTripPage() {
   const [eventStartAndEventDates, setEventStartAndEventDates] = useState<DateRange | undefined>()
 
   const [emailsToInvite, setEmailToInvite] = useState<string[]>([])
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
 
   function openGuestsInput(){
@@ -74,18 +78,49 @@ export function CreateTripPage() {
     setEmailToInvite(newEmailList)
   }
 
-  function createTrip(event: FormEvent<HTMLFormElement>){
+  async function createTrip(event: FormEvent<HTMLFormElement>){
     event.preventDefault()
-    console.log(destination)
-    console.log(eventStartAndEventDates)
-    console.log(ownerName)
-    console.log(ownerEmail)
 
-    // navigate('/trips/123')
+    // Validações
+    if(!destination){
+      return
+    }
+
+    if (!eventStartAndEventDates?.from || !eventStartAndEventDates?.to){
+      return
+    }
+
+    if(emailsToInvite.length === 0){
+      return
+    }
+
+    if(!ownerEmail || !ownerName){
+      return
+    }
+
+    setIsSubmitting(true)
+
+      // Chamada para API
+      const response = await api.post('/trips', {
+        destination,
+        starts_at: eventStartAndEventDates.from,
+        ends_at: eventStartAndEventDates.to,
+        emails_to_invite: emailsToInvite,
+        owner_name: ownerName,
+        owner_email: ownerEmail
+      })
+      const { tripId } = response.data
+
+      navigate(`/trips/${tripId}`)
   }
 
   return (
-    <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
+    isSubmitting ? (
+      <div className="h-screen flex items-center justify-center animate-spin">
+      <LoaderCircle className='size-8 text-lime-400'/>
+    </div>
+    ) : (
+      <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
       <div className="max-w-3xl w-full px-6 text-center space-y-10">
         <div className='flex flex-col items-center gap-3'>
           <img src='/logo.svg' alt='plann.er'/>
@@ -144,7 +179,10 @@ export function CreateTripPage() {
           
           }
     </div>
-  )
+    )
+  );
+    
+
 }
 
 
