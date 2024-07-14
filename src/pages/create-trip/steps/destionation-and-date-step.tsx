@@ -3,6 +3,7 @@ import { Button } from "../../../components/button";
 import { useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { format } from 'date-fns'
 
 interface DestionationAndDateStepProps{
   isGuestsInputOpen: boolean
@@ -22,6 +23,8 @@ export function DestionationAndDateStep({closeGuestsInput, isGuestsInputOpen, op
     return setIsDatePickerOpen(false)
   }
 
+  const displayedDate = eventStartAndEventDates && eventStartAndEventDates.from && eventStartAndEventDates.to ? format(eventStartAndEventDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEventDates.to, "d' de 'LLL")) : null
+
   return(
     <div className="h-16 bg-zinc-900 px-4 flex items-center rounded-xl shadow-shape gap-3">
             <div className='flex items-center gap-2 flex-1'>
@@ -37,9 +40,11 @@ export function DestionationAndDateStep({closeGuestsInput, isGuestsInputOpen, op
             <button onClick={openDatePicker} className='flex items-center gap-2 outline-none text-left' disabled={isGuestsInputOpen}>
               <Calendar className='size-5 text-zinc-400'/>
               <span 
-                className="text-lg text-zinc-400 max-w-40"
+                className="text-lg text-zinc-400 flex-1"
               >
-                Quando?
+                {
+                  displayedDate  || 'Quando'
+                }
               </span>
             </button>
 
